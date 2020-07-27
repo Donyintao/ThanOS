@@ -1,0 +1,138 @@
+{% extends "base_site.html" %}
+
+{% block stylesheets %}
+  {{ block.super }}
+{% endblock stylesheets %}
+
+{% block content %}
+  <div class="right_col" role="main">
+    <div class="">
+      <div class="page-title">
+        <div class="title_left">
+          <h3>用户管理</h3>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2>编辑用户</h2>
+              <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Settings 1</a>
+                    </li>
+                    <li><a href="#">Settings 2</a>
+                    </li>
+                  </ul>
+                </li>
+                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              <br />
+              <form id="edit_userForm" data-parsley-validate class="form-horizontal form-label-left" method="post">
+                {% csrf_token %}
+                {% for user in users %}
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="username">用户名
+                    <span class="required">*</span>
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="hidden" id="id" name="id" class="form-control col-md-7 col-xs-12" value="{{ user.id }}">
+                    <input type="text" id="username" name="username" class="form-control col-md-7 col-xs-12" value="{{ user.username }}" readonly>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nickname">中文名
+                    <span class="required">*</span>
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="text" id="nickname" name="nickname" class="form-control col-md-7 col-xs-12" value="{% if user.nickname %}{{ user.nickname }}{% endif %}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="phone">手机号
+                    <span class="required">*</span>
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="text" id="phone" name="phone" class="form-control col-md-7 col-xs-12" value="{% if user.phone %}{{ user.phone }}{% endif %}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">邮箱
+                    <span class="required">*</span>
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="text" id="email" name="email" class="form-control col-md-7 col-xs-12" value="{% if user.email %}{{ user.email }}{% endif %}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="department">部门
+                    <span class="required">*</span>
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="text" id="department" name="department" class="form-control col-md-7 col-xs-12" value="{% if user.department %}{{ user.department }} {% endif %}">
+                  </div>
+                </div>
+                  {%  if '超级权限' in request.session.permissions_name %}
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="is_active">状态
+                      <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <select class="selectpicker form-control" id="is_active" name="is_active">
+                        <option value="0">禁用</option>
+                        <option value="1" selected="selected">启用</option>
+                      </select>
+                    </div>
+                  </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="role">角色
+                    <span class="required">*</span>
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <!-- 当前用默认的角色列表 -->
+                    <input type="hidden" class="form-control" id="roleinfo" name="roleinfo" value="{{ roles }}">
+                    <!-- 多选拉下框无法验证, 需要设置input并赋值 -->
+                    <input type="hidden" class="form-control" id="roles" name="roles">
+                    <!-- 下拉菜单多选框 -->
+                    <select class="selectpicker form-control" multiple id="role_select" name="role_select"></select>
+                  </div>
+                </div>
+                {% endif %}
+                <div class="ln_solid"></div>
+                <div class="form-group">
+                  <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                    <span class="edit_userValid" CurlId="{{ user.id }}">
+                      <button type="button" class="btn btn-success">保存</button>
+                    </span>
+                    <span class="edit_userReset">
+                      <button class="btn btn-primary" type="reset">重置</button>
+                    </span>
+                  </div>
+                </div>
+                {% endfor %}
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  {{ block.super}}
+  <!-- 自定义js -->
+  <script src="/static/js/users.register.js"></script>
+  <script src="/static/js/users.dropdowns.js"></script>
+{% endblock javascripts %}

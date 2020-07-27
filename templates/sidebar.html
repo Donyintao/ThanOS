@@ -1,0 +1,47 @@
+<div class="left_col scroll-view">
+  <div class="navbar nav_title" style="text-align: center;">
+    <a href="/" class="site_title"> <span>ThanOS 运维平台</span></a>
+  </div>
+
+  <div class="clearfix"></div>
+
+  <!-- 菜单配置 -->
+  <div class="profile clearfix col-center-block">
+    <div class="profile_pic col-center-block">
+      <img src="/static/images/img.jpg" class="img-circle profile_img col-center-block">
+    </div>
+  </div>
+  <!-- 菜单配置 -->
+  <br />
+  <!-- 侧边栏配置 -->
+  <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+    <div class="menu_section">
+      {% if request.session.username %}
+        <h3 align="center">欢迎登录: {{ request.session.username }}</h3>
+      {% endif %}
+      {% for item in request.session.permissions_menu.values  %}
+      <ul class="nav side-menu">
+        {% if not item.menu == '超级权限' %}
+          {% if item.menu == '控制面板' %}
+            <li>
+              <a href="#"><i class="fa {{ item.icon }}">
+                </i>控制面板<span class="label label-success pull-right"></span>
+              </a>
+            </li>
+          {% else %}
+            <li><a><i class="fa {{ item.icon }}"></i>{{ item.menu }}<span class="fa fa-chevron-down"></span></a>
+          {% endif %}
+        {% endif %}
+          <ul class="nav child_menu">
+          {% for menu in item.children %}
+            {% if not menu.title == '默认权限' %}
+              <li><a href="{{ menu.url }}">{{ menu.title }}</a></li>
+            {% endif %}
+          {% endfor %}
+          </ul>
+        </li>
+      </ul>
+      {% endfor %}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+/* 解决绝对定位div Link不能点击问题 */
+.btn_position {
+    z-index: 9;
+    position: absolute;
+}
+
+.cluster_margin {
+    margin-left: -10px;
+}
+
+/* 解决表格按钮的样式居中问题 */
+.btn_margin {
+    margin: 0px 0px;
+}
+
+/* 解决表格中多个按钮间距问题 */
+.info_margin {
+    margin-left: 0px;
+}
+
+/* 解决登录页面错误问题 */
+.login_valid ul li {
+    list-style: none;
+    white-space: nowrap;
+    margin-left: -40px;
+    color: #a94442;
+}
+
+/* 解决关闭按钮位置移动问题 */
+.nav_tootlbox {
+    margin-right: -25px;
+}

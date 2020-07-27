@@ -1,0 +1,122 @@
+{% extends "base_site.html" %}
+
+{% block stylesheets %}
+  {{ block.super }}
+  <link href="/static/css/dataTables.bootstrap.min.css" rel="stylesheet">
+{% endblock stylesheets %}
+
+{% block content %}
+  <div class="right_col" role="main">
+    <div class="">
+      <div class="page-title">
+        <div class="title_left">
+          <h3>用户管理</h3>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2>用户列表</h2>
+              <ul class="nav navbar-right panel_toolbox">
+			        <li><a class="collapse-link"><i class="glyphicon glyphicon-plus"></i></a>
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+
+            <div class="x_content">
+              {% if '超级权限' in request.session.permissions_name %}
+              <div class="btn_position">
+                <span>
+                  <a class="btn btn-success fa fa-plus" style="margin-top: 3px;" href="{% url 'register' %}"> 添加
+                  </a>
+                </span>
+                <span class="del_checkall check-initial" style="display:none">
+                  <button class="btn btn-danger fa fa-minus" style="margin-top: 3px;"> 删除</button>
+                </span>
+              </div>
+              {% endif %}
+              <table id="UserTable" class="table table-striped table-bordered bulk_action">
+                <thead>
+                  <tr>
+                  {% if '超级权限' in request.session.permissions_name %}
+                  <th>
+                    <span>
+                      <input type="checkbox" class="flat check-all" name="check-all" value="all">
+                    </span>
+                  </th>
+                  {% endif %}
+                  <th>用户名</th>
+                  <th>中文名</th>
+                  <th>邮箱地址</th>
+                  <th>用户状态</th>
+                  <th>登录时间</th>
+                  <th>手机号码</th>
+                  <th>部门</th>
+                  {%  if '超级权限' in request.session.permissions_name %}
+                  <th>操作</th>
+                  {% endif %}
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for user in result %}
+                  <tr>
+                    {% if '超级权限' in request.session.permissions_name %}
+                    <td>
+                      <span class="checkchild">
+                        <input type="checkbox" class="flat" name="optionName" value="{{ user.id }}">
+                      </span>
+                    </td>
+                    {% endif %}
+                    <td>{{ user.username }}</td>
+                    {% if user.nickname %}<td>{{ user.nickname }}</td>{% else %}<td></td>{% endif %}
+                    {% if user.email %}<td>{{ user.email }}</td>{% else %}<td></td>{% endif %}
+                    {% if user.is_active %}
+                    <td>
+                      <span class="_user btn_margin">
+                        <a class="btn btn-success btn-xs disabled btn_margin" href="#">已启用</a>
+                      </span>
+                    </td>
+                    {% else %}
+                    <td>
+                     <span class="user_dangerVild">
+                       <a class="btn btn-warning btn-xs disabled btn_margin" href="#">已禁用</a>
+                     </span>
+                    </td>
+                    {% endif %}
+                    {% if user.last_login %}<td>{{ user.last_login }}</td>{% else %}<td></td>{% endif %}
+                    {% if user.phone %}<td>{{ user.phone }}</td>{% else %}<td></td>{% endif %}
+                    {% if user.department%}<td>{{ user.department }}</td>{% else %}<td></td>{% endif %}
+                    {%  if '超级权限' in request.session.permissions_name %}
+                    <td>
+                      <a class="btn btn-info btn-xs btn_margin" href="{% url 'users_change' user.id %}">编辑</a>
+                      <span class="del_user" CurlId="{{ user.id }}">
+                        <button type="button" class="btn btn-danger btn-xs btn_margin">删除</button>
+                      </span>
+                    </td>
+                    {% endif %}
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  {{ block.super}}
+  <!-- 自定义js -->
+  <script src="/static/js/users.register.js"></script>
+  <script src="/static/js/icheckbox.js"></script>
+{% endblock javascripts %}

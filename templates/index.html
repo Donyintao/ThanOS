@@ -1,0 +1,34 @@
+{% extends "base_site.html" %}
+
+{% block title %} ThanOS {% endblock title %}
+
+{% block stylesheets %}
+  {{ block.super }}
+  <link href="/static/css/cluster.details.css" rel="stylesheet">
+{% endblock stylesheets %}
+
+{% block content %}
+  <div class="right_col" role="main">
+    <div class="">
+      <!-- top tiles -->
+      <div class="page-title">
+        <div class="title_left">
+          <h3>资源总揽</h3>
+        </div>
+      </div>
+
+      <div class="x_title">
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_title">
+      </div>
+      <div class="row">
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  {{ block.super}}
+  <!-- 自定义js !-->
+{% endblock javascripts %}
